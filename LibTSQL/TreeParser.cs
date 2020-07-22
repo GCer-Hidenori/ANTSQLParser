@@ -43,7 +43,7 @@ namespace LibTSQL
         public Node parse(IParseTree tree, Node parent_node)
         {
             Node node = new Node();
-            
+            node.rule_name = rule_names[((RuleContext)tree).RuleIndex];
             parent_node.children.Add(node);
             for (var i = 0; i < tree.ChildCount; i++)
             {
