@@ -2317,7 +2317,7 @@ drop_view
 
 create_type
     : CREATE TYPE name = simple_name
-      (FROM data_type default_value)?
+      (FROM data_type null_notnull)?
       (AS TABLE LR_BRACKET column_def_table_constraints RR_BRACKET)?
     ;
 
