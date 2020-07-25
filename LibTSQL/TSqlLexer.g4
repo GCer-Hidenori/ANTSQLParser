@@ -488,6 +488,7 @@ BINDING:                               B I N D I N G ;
 BLOB_STORAGE:                          B L O B '_' S T O F_R A G E ;
 BROKER:                                B F_R O K E F_R ;
 BROKER_INSTANCE:                       B F_R O K E F_R '_' I N S T A N C E ;
+BUCKET_COUNT:                          B U C K E T '_' C O U N T ;
 BULK_LOGGED:                           B U L K '_' L O G G E D ;
 CALLER:                                C A L L E F_R ;
 CAP_CPU_PERCENT:                       C A P '_' C P U '_' P E F_R C E N T ;

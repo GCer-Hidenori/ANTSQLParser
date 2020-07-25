@@ -2770,7 +2770,7 @@ column_constraint
 // https://msdn.microsoft.com/en-us/library/ms188066.aspx
 table_constraint
     : (CONSTRAINT constraint=id)?
-       ((PRIMARY KEY | UNIQUE) clustered? '(' column_name_list_with_order ')' index_options? (ON id)?
+       ((PRIMARY KEY | UNIQUE) (clustered? '(' column_name_list_with_order ')' index_options? (ON id)? | NONCLUSTERED HASH '(' column_name_list_with_order ')' WITH '(' BUCKET_COUNT EQUAL DECIMAL ')' )
          | CHECK (NOT FOR REPLICATION)? '(' search_condition ')'
          | DEFAULT '('?  (STRING | PLUS | function_call | DECIMAL)+ ')'? FOR id
          | FOREIGN KEY '(' fk = column_name_list ')' REFERENCES table_name ('(' pk = column_name_list')')? on_delete? on_update?)
