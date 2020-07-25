@@ -1969,11 +1969,16 @@ update_statistics
 
 // https://msdn.microsoft.com/en-us/library/ms174979.aspx
 create_table
-    : CREATE TABLE table_name '(' column_def_table_constraints ','? ')' (LOCK simple_id)? table_options* (ON id | DEFAULT)? (TEXTIMAGE_ON id | DEFAULT)?';'?
+    : CREATE TABLE table_name '(' column_def_table_constraints_index ','? ')' (LOCK simple_id)? table_options* (ON id | DEFAULT)? (TEXTIMAGE_ON id | DEFAULT)?';'?
     ;
 
 table_options
     : WITH ('(' index_option (',' index_option)* ')' | index_option (',' index_option)*)
+    ;
+
+//https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver15
+table_index
+    : INDEX id UNIQUE? clustered? '(' column_name_list_with_order ')'
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms187956.aspx
@@ -2727,6 +2732,17 @@ column_def_table_constraint
     : column_definition
     | materialized_column_definition
     | table_constraint
+    ;
+
+column_def_table_constraints_index
+    : column_def_table_constraint_index (','? column_def_table_constraint_index)*
+    ;
+
+column_def_table_constraint_index
+    : column_definition
+    | materialized_column_definition
+    | table_constraint
+    | table_index
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms187742.aspx
