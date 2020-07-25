@@ -268,6 +268,7 @@ MINVALUE:                              M I N V A L U E ;
 MIRROR:                                M I F_R F_R O F_R ;
 MUST_CHANGE:                           M U S T '_' C H A N G E ;
 NATIONAL:                              N A T I O N A L ;
+NATIVE_COMPILATION:                    N A T I V E '_' C O M P I L A T I O N ;
 NEGOTIATE:                             N E G O T I A T E ;
 NOCHECK:                               N O C H E C K ;
 NOFORMAT:                              N O F O F_R M A T ;
