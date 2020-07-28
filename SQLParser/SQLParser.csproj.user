@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>-f test01.sql -o json</StartArguments>
+    <StartArguments>-f c:\prog\sqlparser\06antlr\test\test03.sql -o json</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartArguments>-f c:\prog\sqlparser\06antlr\test\test03.sql -o xml</StartArguments>
   </PropertyGroup>
 </Project>

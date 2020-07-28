@@ -26,6 +26,8 @@ namespace LibTSQL
             var lexer = new TSqlLexer(inputStream);
             var commonTokenStream = new CommonTokenStream(lexer);
             var parser = new TSqlParser(commonTokenStream);
+            //parser.AddErrorListener(new MyErrorListener());
+
 
             ParserRuleContext graphContext = parser.tsql_file();
             var token_names = parser.TokenNames;
