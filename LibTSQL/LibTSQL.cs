@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using System.IO;
+using Newtonsoft.Json;
 /*
 Install-Package antlr4
-Install-Package System.Text.Json -Version 4.7.2
+Install-Package Newtonsoft.Json -Version 12.0.3
 */
 namespace LibTSQL
 {
@@ -47,7 +47,7 @@ namespace LibTSQL
         }
         public string to_json()
         {
-            return JsonSerializer.Serialize(root.to_Hashtable());
+            return JsonConvert.SerializeObject(root.to_Hashtable(), Newtonsoft.Json.Formatting.Indented);
         }
         public XmlDocument to_xml()
         {
