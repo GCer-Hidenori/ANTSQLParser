@@ -23,23 +23,31 @@ namespace SQLParser
                     var parsed = parseResult as Parsed<Options>;
                     option = parsed.Value;
                     LibTSQL.LibTSQL lib = new LibTSQL.LibTSQL();
-                    if(option.str != null)
+                    try
                     {
-                        lib.load_string(option.str);
-                    }else if(option.filename != null)
-                    {
-                        if(option.encoding != null)
+                        if (option.str != null)
                         {
-                            lib.load_file(option.filename, option.encoding);
+                            lib.load_string(option.str);
+                        }
+                        else if (option.filename != null)
+                        {
+                            if (option.encoding != null)
+                            {
+                                lib.load_file(option.filename, option.encoding);
+                            }
+                            else
+                            {
+                                lib.load_file(option.filename);
+                            }
                         }
                         else
                         {
-                            lib.load_file(option.filename);
+                            Console.Error.WriteLine("Filename or string is required.");
+                            return 1;
                         }
-                    }
-                    else
+                    }catch(LibTSQL.ParserError e)
                     {
-                        Console.Error.WriteLine("Filename or string is required.");
+                        Console.Error.WriteLine(e);
                         return 1;
                     }
 
