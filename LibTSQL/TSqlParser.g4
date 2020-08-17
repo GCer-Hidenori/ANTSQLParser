@@ -119,6 +119,7 @@ ddl_clause
     | create_column_encryption_key
     | create_column_master_key
     | create_credential
+    | create_database_scoped_credential
     | create_cryptographic_provider
     | create_database
     | create_db_role
@@ -1003,6 +1004,14 @@ create_credential
          ( COMMA SECRET EQUAL secret=STRING )?
          (  FOR CRYPTOGRAPHIC PROVIDER cryptographic_provider_name=id )?
     ;
+
+// https://docs.microsoft.com/en-us/sql/t-sql/statements/create-database-scoped-credential-transact-sql?view=sql-server-ver15
+create_database_scoped_credential
+    : CREATE DATABASE SCOPED CREDENTIAL credential_name=id
+        WITH IDENTITY EQUAL identity_name=STRING
+         ( COMMA SECRET EQUAL secret=STRING )?
+    ;
+
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-cryptographic-provider-transact-sql
 alter_cryptographic_provider
