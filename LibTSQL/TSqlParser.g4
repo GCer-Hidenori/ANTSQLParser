@@ -83,6 +83,7 @@ ddl_clause
     | alter_db_role
     | alter_endpoint
     | create_or_alter_event_session
+    | create_external_data_source
     | alter_external_data_source
     | alter_external_library
     | alter_external_resource_pool
@@ -1081,6 +1082,13 @@ event_session_predicate_leaf
      : (event_field_name=id | (event_field_name=id |( (event_module_guid=id DOT)?  event_package_name=id DOT predicate_source_name=id ) ) (EQUAL |(LESS GREATER) | (EXCLAMATION EQUAL) | GREATER  | (GREATER EQUAL)| LESS | LESS EQUAL) (DECIMAL | STRING) )
      | (event_module_guid=id DOT)?  event_package_name=id DOT predicate_compare_name=id LR_BRACKET (event_field_name=id |( (event_module_guid=id DOT)?  event_package_name=id DOT predicate_source_name=id ) COMMA  (DECIMAL | STRING) ) RR_BRACKET
      ;
+
+// https://docs.microsoft.com/en-us/sql/t-sql/statements/create-external-data-source-transact-sql?view=sql-server-ver15
+create_external_data_source
+    : CREATE EXTERNAL DATA SOURCE data_source_name=id  WITH '('
+    ( LOCATION EQUAL location=(QUOTED_URL|QUOTED_HOST_AND_PORT) COMMA? |  RESOURCE_MANAGER_LOCATION EQUAL resource_manager_location=(QUOTED_URL|QUOTED_HOST_AND_PORT) COMMA? |  CREDENTIAL EQUAL credential_name=id | CONNECTION_OPTIONS EQUAL connection_options=STRING | PUSHDOWN EQUAL pushdown=on_off | TYPE EQUAL type=(HADOOP | BLOB_STORAGE) )+ ')'
+    ;
+
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-external-data-source-transact-sql
 alter_external_data_source

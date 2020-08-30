@@ -76,7 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LibTSQL.cs" />
-    <Compile Include="MyErrorListener.cs" />
+    <Compile Include="ParserError.cs" />
+    <Compile Include="ParserErrorListener.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeParser.cs" />

@@ -22,49 +22,38 @@ namespace LibTSQL
         {
             Node node = new Node();
             node.rule_name = rule_names[context.RuleIndex];
-                
-            var terminal = context.GetChild<TerminalNodeImpl>(0);
-            if(terminal != null){
-                node.value = terminal.GetText();
-                node.token_name = get_tokenname(terminal.Payload.Type);
-            }
-            if(parent_node != null)parent_node.children.Add(node);
 
-            for(var i = 0;i < context.ChildCount; i++)
+            node.value = context.GetText();
+            if (parent_node != null) parent_node.children.Add(node);
+
+            for (var i = 0; i < context.ChildCount; i++)
             {
                 var child = context.GetChild(i);
-                if(child.ChildCount > 0)
-                {
-                    parse(child, node);
-                }
+                parse(child, node);
             }
             return node;
         }
         public Node parse(IParseTree tree, Node parent_node)
         {
             Node node = new Node();
-            node.rule_name = rule_names[((RuleContext)tree).RuleIndex];
+
+            if (tree.GetType().IsSubclassOf(typeof(ParserRuleContext)))
+            {
+                node.rule_name = rule_names[((RuleContext)tree).RuleIndex];
+            }
+            else
+            {
+                //TerminalNodeImpl
+                node.token_name = get_tokenname(((IToken)tree.Payload).Type);
+            }
+
             parent_node.children.Add(node);
+
+            node.value = tree.GetText();
             for (var i = 0; i < tree.ChildCount; i++)
             {
                 var child = tree.GetChild(i);
-                if(child.ChildCount == 0) //childはTerminal
-                {
-                    var child_payload = ((TerminalNodeImpl)child).Payload;
-                    var d = child_payload.TokenSource;
-                    ITokenSource ts = child_payload.TokenSource;
-                    node.value = child.GetText();
-                    node.token_name = get_tokenname(child_payload.Type);
-                    break;
-                }
-            }
-            for(var i = 0;i < tree.ChildCount; i++)
-            {
-                var child = tree.GetChild(i);
-                if (child.ChildCount > 0)
-                {
-                    parse(child, node);
-                }
+                parse(child, node);
             }
             return node;
         }
