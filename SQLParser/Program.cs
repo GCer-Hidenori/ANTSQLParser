@@ -25,6 +25,11 @@ namespace SQLParser
                     LibTSQL.LibTSQL lib = new LibTSQL.LibTSQL();
                     try
                     {
+                        if(option.rulename != null)
+                        {
+                            lib.start_rulename = option.rulename;
+                        }
+
                         if (option.str != null)
                         {
                             lib.load_string(option.str);

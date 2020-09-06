@@ -21,5 +21,10 @@ namespace SQLParser
 
         [Option('o',"format", Required = true, HelpText = "Output format.json or xml.")]
         public string format { get; set; }
+
+        [Option('r', "rule", Required = false, HelpText = "Rule name.Default is tsql_file")]
+        public string rulename { get; set; }
+
+
     }
 }

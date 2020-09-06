@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Antlr4.Runtime;
 using System.IO;
 using Newtonsoft.Json;
+using System.Reflection;
 /*
 Install-Package antlr4
 Install-Package Newtonsoft.Json -Version 12.0.3
@@ -16,6 +17,7 @@ namespace LibTSQL
     public class LibTSQL
     {
         Node root;
+        public string start_rulename = "tsql_file";
         public LibTSQL()
         {
 
@@ -29,8 +31,15 @@ namespace LibTSQL
             parser.RemoveErrorListeners();
             parser.AddErrorListener(new ParserErrorListener());
 
+            Type t = parser.GetType();
+            MethodInfo mi = t.GetMethod(start_rulename);
+            if(mi == null)
+            {
+                throw new ArgumentException("rulename " + start_rulename + " not found.");
+            }
+            ParserRuleContext graphContext = (ParserRuleContext)mi.Invoke(parser,new object[] { });
 
-            ParserRuleContext graphContext = parser.tsql_file();
+            //ParserRuleContext graphContext = parser.tsql_file();
             var token_names = parser.TokenNames;
             var rule_names = parser.RuleNames;
             var tree_parser = new TreeParser(token_names, rule_names);
