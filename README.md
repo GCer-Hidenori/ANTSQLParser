@@ -29,26 +29,26 @@ sqlparser -o json -s "select * from tab1"
 
 this program support
 - dml
- - merge
- - delte
- - insert
- - select
- - update
+  - merge
+  - delte
+  - insert
+  - select
+  - update
 - ddl
- - alter
- - create
- - drop
- - etc
+  - alter
+  - create
+  - drop
+  - etc
 - backup statement
 - flow control statement
- - begen
- - break
- - if
- - goto
- - return
- - throw
- - try
- - etc
+  - begen
+  - break
+  - if
+  - goto
+  - return
+  - throw
+  - try
+  - etc
 
 # Installation
 
