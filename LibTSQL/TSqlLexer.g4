@@ -876,7 +876,7 @@ SQUARE_BRACKET_ID:  '['  ~']'+ ']' ;
 LOCAL_ID:           '@'  ([A-Za-z_$@#0-9] | FullWidthLetter)+;
 DECIMAL:             DEC_DIGIT+;
 ID:                  ( [A-Za-z_#] | FullWidthLetter) ( [A-Za-z_#$@0-9] | FullWidthLetter )*;
-QUOTED_URL:          '\'' ([A-Za-z][A-Za-z]+[:]) '//' (([A-Za-z]+[.]|[A-Za-z]+)|IPV4_ADDR) [:] DECIMAL '\'' ;
+QUOTED_URL:          '\'' ([A-Za-z][A-Za-z]+[:]) '//' (([A-Za-z]+[.]|[A-Za-z\-]+)+|IPV4_ADDR) ([:] DECIMAL)? ('/'[A-Za-z.\-]+)* '\'' ;
 QUOTED_HOST_AND_PORT:'\''(([A-Za-z]+[.]|[A-Za-z]+)|IPV4_ADDR) ([:] DECIMAL) '\'';
 STRING:              ( N )? '\''  (~'\''  | '\'\'' )* '\'' ;
 BINARY:              '0'  X  HEX_DIGIT*;
