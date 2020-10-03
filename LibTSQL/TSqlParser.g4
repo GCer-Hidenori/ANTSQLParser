@@ -2540,7 +2540,7 @@ execute_statement
     ;
 
 execute_body
-    : (return_status=LOCAL_ID '=')? (func_proc_name_server_database_schema | expression) (execute_statement_arg (',' execute_statement_arg)*)? ';'?
+    : (return_status=LOCAL_ID '=')? (func_proc_name_server_database_schema | expression) (execute_statement_arg (',' execute_statement_arg)*)? (WITH execute_option)? ';'?
     | '(' execute_var_string ('+' execute_var_string)* ')' (AS? (LOGIN | USER) '=' STRING)? ';'?
     ;
 
@@ -2551,6 +2551,20 @@ execute_statement_arg
 execute_var_string
     : LOCAL_ID
     | STRING
+    ;
+
+execute_option
+    : RECOMPILE
+    | RESULT_SETS UNDEFINED
+    | RESULT_SETS NONE
+    | RESULT_SETS '('  '(' execute_option_columns_def ')' (',' '('  execute_option_columns_def ')')*  ')' 
+    ;
+
+execute_option_columns_def
+    : execute_option_column_definition (',' execute_option_column_definition)*
+    ;
+execute_option_column_definition
+    : id (data_type | AS expression) (COLLATE id)? null_notnull?
     ;
 
 // https://msdn.microsoft.com/en-us/library/ff848791.aspx
