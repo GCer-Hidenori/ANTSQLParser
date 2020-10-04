@@ -2404,7 +2404,7 @@ backup_database
                    | COMMA? COPY_ONLY
                    | COMMA? (COMPRESSION|NO_COMPRESSION)
                    | COMMA? DESCRIPTION EQUAL (STRING|id)
-                   | COMMA? NAME EQUAL backup_set_name=id
+                   | COMMA? NAME EQUAL backup_set_name=(STRING | LOCAL_ID)
                    | COMMA? CREDENTIAL
                    | COMMA? FILE_SNAPSHOT
                    | COMMA? (EXPIREDATE EQUAL (STRING|id) | RETAINDAYS EQUAL (DECIMAL|id) )
