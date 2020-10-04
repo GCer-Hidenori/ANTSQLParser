@@ -2434,6 +2434,7 @@ backup_database
                                            (encryptor_name=id
                                            | SERVER ASYMMETRIC KEY EQUAL encryptor_name=id
                                            )
+                                       RR_BRACKET
                   )*
               )?
 
