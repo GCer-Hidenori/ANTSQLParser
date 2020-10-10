@@ -262,6 +262,7 @@ MEDIADESCRIPTION:                      M E D I A D E S C F_R I P T I O N ;
 MEDIANAME:                             M E D I A N A M E ;
 MEMBER:                                M E M B E F_R ;
 MEMORY_PARTITION_MODE:                 M E M O F_R Y '_' P A F_R T I T I O N '_' M O D E ;
+MEMORY_OPTIMIZED_ELEVATE_TO_SNAPSHOT:  M E M O F_R Y '_' O P T I M I Z E D '_' E L E V A T E '_' T O '_' S N A P S H O T ;
 MERGE:                                 M E F_R G E ;
 MESSAGE_FORWARDING:                    M E S S A G E '_' F O F_R W A F_R D I N G ;
 MESSAGE_FORWARD_SIZE:                  M E S S A G E '_' F O F_R W A F_R D '_' S I Z E ;

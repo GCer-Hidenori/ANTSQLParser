@@ -2255,7 +2255,7 @@ service_broker_option:
 snapshot_option:
    ALLOW_SNAPSHOT_ISOLATION on_off
   | READ_COMMITTED_SNAPSHOT (ON | OFF )
-  | MEMORY_OPTIMIZED_ELEVATE_TO_SNAPSHOT = (ON | OFF )
+  | MEMORY_OPTIMIZED_ELEVATE_TO_SNAPSHOT EQUAL (ON | OFF )
   ;
 
 sql_option:
