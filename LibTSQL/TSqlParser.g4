@@ -2045,7 +2045,7 @@ database_optionspec
       | db_user_access_option
       | delayed_durability_option
       | external_access_option
-      | FILESTREAM database_filestream_option
+      | FILESTREAM LR_BRACKET ( database_filestream_option (',' database_filestream_option)* ) RR_BRACKET
       | hadr_options
       | mixed_page_allocation_option
       | parameterization_option
