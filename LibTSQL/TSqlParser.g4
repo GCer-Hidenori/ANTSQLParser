@@ -3560,7 +3560,7 @@ begin_conversation_dialog
     : BEGIN DIALOG (CONVERSATION)? dialog_handle=LOCAL_ID
       FROM SERVICE initiator_service_name=service_name
       TO SERVICE target_service_name=service_name (',' service_broker_guid=STRING)?
-      ON CONTRACT contract_name
+      (ON CONTRACT contract_name)?
       (WITH
         ((RELATED_CONVERSATION | RELATED_CONVERSATION_GROUP) '=' LOCAL_ID ','?)?
         (LIFETIME '=' (DECIMAL | LOCAL_ID) ','?)?
@@ -3596,7 +3596,7 @@ queue_id
 
 send_conversation
     : SEND ON CONVERSATION conversation_handle=(STRING | LOCAL_ID)
-      MESSAGE TYPE message_type_name=expression
+      (MESSAGE TYPE message_type_name=expression)?
       ('(' message_body_expression=(STRING | LOCAL_ID) ')' )?
       ';'?
     ;
