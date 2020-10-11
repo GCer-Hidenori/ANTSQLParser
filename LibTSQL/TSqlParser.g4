@@ -3410,7 +3410,7 @@ window_frame_following
     ;
 
 create_database_option:
-    FILESTREAM ( database_filestream_option (',' database_filestream_option)* )
+    FILESTREAM LR_BRACKET ( database_filestream_option (',' database_filestream_option)* ) RR_BRACKET
     | DEFAULT_LANGUAGE EQUAL ( id | STRING )
     | DEFAULT_FULLTEXT_LANGUAGE EQUAL ( id | STRING )
     | NESTED_TRIGGERS EQUAL ( OFF | ON )
@@ -3421,13 +3421,11 @@ create_database_option:
     ;
 
 database_filestream_option:
-     LR_BRACKET
      (
          ( NON_TRANSACTED_ACCESS EQUAL ( OFF | READ_ONLY | FULL ) )
          |
          ( DIRECTORY_NAME EQUAL STRING )
      )
-     RR_BRACKET
     ;
 
 database_file_spec:
