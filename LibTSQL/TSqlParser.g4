@@ -3254,6 +3254,7 @@ function_call
     | analytic_windowed_function                        #ANALYTIC_WINDOWED_FUNC
     | scalar_function_name '(' expression_list? ')'     #SCALAR_FUNCTION
     | STRING_AGG '(' expr=expression ',' separator=expression ')' (WITHIN GROUP '(' order_by_clause ')')?  #STRINGAGG
+    | NEXT VALUE FOR (database_name=id DOT)? (schema_name=id DOT)? sequence_name=id	#NEXT_VALUE_FOR
     ;
 
 xml_data_type_methods
