@@ -18,6 +18,7 @@ namespace LibTSQL
     {
         Node root;
         public string start_rulename = "tsql_file";
+        public bool noerrorlistener = false;
         public LibTSQL()
         {
 
@@ -28,10 +29,11 @@ namespace LibTSQL
             var lexer = new TSqlLexer(inputStream);
             var commonTokenStream = new CommonTokenStream(lexer);
             var parser = new TSqlParser(commonTokenStream);
-
-            parser.RemoveErrorListeners();
-            parser.AddErrorListener(new ParserErrorListener());
-
+            if (!noerrorlistener)
+            {
+                parser.RemoveErrorListeners();
+                parser.AddErrorListener(new ParserErrorListener());
+            }
             Type t = parser.GetType();
             MethodInfo mi = t.GetMethod(start_rulename);
             if(mi == null)

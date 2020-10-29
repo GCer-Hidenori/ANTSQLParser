@@ -23,6 +23,7 @@ namespace SQLParser
                     var parsed = parseResult as Parsed<Options>;
                     option = parsed.Value;
                     LibTSQL.LibTSQL lib = new LibTSQL.LibTSQL();
+                    lib.noerrorlistener = option.noerrorlistener;
                     try
                     {
                         if(option.rulename != null)
