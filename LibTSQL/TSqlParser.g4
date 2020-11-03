@@ -258,6 +258,7 @@ block_statement
     : BEGIN ';'? sql_clauses? END ';'?
     ;
 
+
 // https://docs.microsoft.com/en-us/sql/t-sql/language-elements/break-transact-sql
 break_statement
     : BREAK ';'?
@@ -1880,8 +1881,25 @@ create_or_alter_procedure
     : ((CREATE (OR ALTER)?) | ALTER) proc=(PROC | PROCEDURE) func_proc_name_schema (';' DECIMAL)?
       ('('? procedure_param (',' procedure_param)* ')'?)?
       (WITH procedure_option (',' procedure_option)*)?
-      (FOR REPLICATION)? AS sql_clauses
+      (FOR REPLICATION)? AS atomic_block?
+      sql_clauses
     ;
+
+// https://docs.microsoft.com/en-us/sql/relational-databases/in-memory-oltp/atomic-blocks-in-native-procedures?view=sql-server-ver15
+atomic_block
+    : BEGIN ATOMIC WITH '(' atomic_block_option (',' atomic_block_option)* ')'
+    ;
+
+atomic_block_option
+    : TRANSACTION ISOLATION LEVEL EQUAL 
+      (READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SNAPSHOT | SERIALIZABLE | DECIMAL)
+    | LANGUAGE EQUAL language=STRING
+    | DELAYED_DURABILITY EQUAL (OFF | ON) 
+    | DATEFORMAT EQUAL (MDY | DMY | YMD | YDM | MYD | DYM | LOCAL_ID)
+    | DATEFIRST EQUAL DECIMAL
+    ;
+
+
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql
 create_or_alter_trigger
@@ -3722,6 +3740,8 @@ simple_id
     | DATE_CORRELATION_OPTIMIZATION
     | DATEADD
     | DATEDIFF
+    | DATEFIRST
+    | DATEFORMAT
     | DATENAME
     | DATEPART
     | DAYS
@@ -4328,6 +4348,12 @@ simple_id
     | XMLSCHEMA
     | XOR_ASSIGN
     | XSINIL
+    | MDY
+    | DMY
+    | YMD
+    | YDM
+    | MYD
+    | DYM
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms188074.aspx
