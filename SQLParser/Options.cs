@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +24,9 @@ namespace SQLParser
 
         [Option('r', "rule", Required = false, HelpText = "Rule name.Default is tsql_file")]
         public string rulename { get; set; }
+
+        [Option('i', "indentxml", Required = false, HelpText = "Indent xml.")]
+        public bool indentxml { get; set; }
 
         [Option("noerrorlistener",Required =false,HelpText ="No use error listener")]
         public bool noerrorlistener { get; set; }
