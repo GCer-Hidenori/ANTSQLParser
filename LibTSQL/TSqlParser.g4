@@ -1881,13 +1881,13 @@ create_or_alter_procedure
     : ((CREATE (OR ALTER)?) | ALTER) proc=(PROC | PROCEDURE) func_proc_name_schema (';' DECIMAL)?
       ('('? procedure_param (',' procedure_param)* ')'?)?
       (WITH procedure_option (',' procedure_option)*)?
-      (FOR REPLICATION)? AS atomic_block?
-      sql_clauses
+      (FOR REPLICATION)? AS ( sql_clauses | atomic_block)
     ;
 
 // https://docs.microsoft.com/en-us/sql/relational-databases/in-memory-oltp/atomic-blocks-in-native-procedures?view=sql-server-ver15
 atomic_block
     : BEGIN ATOMIC WITH '(' atomic_block_option (',' atomic_block_option)* ')'
+      sql_clauses END ';'?
     ;
 
 atomic_block_option
