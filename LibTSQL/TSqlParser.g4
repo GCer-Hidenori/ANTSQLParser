@@ -792,7 +792,7 @@ drop_external_resource_pool
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-external-table-transact-sql
 drop_external_table
-    : DROP EXTERNAL TABLE (database_name DOT)? (schema_name DOT)? table=id
+    : DROP EXTERNAL TABLE (database_name DOT)? (schema_name DOT)? table_name
     ;
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-event-notification-transact-sql
@@ -814,7 +814,7 @@ drop_fulltext_catalog
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-fulltext-index-transact-sql
 drop_fulltext_index
-   : DROP FULLTEXT INDEX ON (schema=id DOT)? table=id
+   : DROP FULLTEXT INDEX ON (schema_name DOT)? table_name
    ;
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-fulltext-stoplist-transact-sql
@@ -937,7 +937,7 @@ drop_symmetric_key
 
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-synonym-transact-sql
 drop_synonym
-     : DROP SYNONYM ( IF EXISTS )? ( schema=id DOT )? synonym_name=id
+     : DROP SYNONYM ( IF EXISTS )? ( schema_name DOT )? synonym_name=id
      ;
 
 
@@ -1566,7 +1566,7 @@ create_symmetric_key
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/create-synonym-transact-sql
 create_synonym
     : CREATE SYNONYM (schema_name_1=id DOT )? synonym_name=id
-        FOR ( (server_name=id DOT )? (database_name DOT)? (schema_name_2=id DOT)? object_name=id
+        FOR ( (server_name DOT )? (database_name DOT)? (schema_name_2=id DOT)? object_name=id
             | (database_or_schema2=id DOT)? (schema_id_2_or_object_name=id DOT)?
             )
     ;
@@ -1673,7 +1673,7 @@ create_xml_schema_collection
     ;
 
 create_queue
-    : CREATE QUEUE (full_table_name | queue_name=id) queue_settings?
+    : CREATE QUEUE (schema_object_name | queue_name=id) queue_settings?
       (ON filegroup=id | DEFAULT)?
     ;
 
@@ -1703,7 +1703,7 @@ queue_settings
     ;
 
 alter_queue
-    : ALTER QUEUE (full_table_name | queue_name=id)
+    : ALTER QUEUE (schema_object_name | queue_name=id)
       (queue_settings | queue_action)
     ;
 
@@ -1813,7 +1813,7 @@ insert_statement_value
 
 receive_statement
     : '('? RECEIVE (ALL | DISTINCT | top_clause | '*')
-      (LOCAL_ID '=' expression ','?)* FROM full_table_name
+      (LOCAL_ID '=' expression ','?)* FROM schema_object_name
       (INTO table_variable=id (WHERE where=search_condition))? ')'?
     ;
 
@@ -1858,7 +1858,7 @@ output_column_name
 
 // https://msdn.microsoft.com/en-ie/library/ms176061.aspx
 create_database
-    : CREATE DATABASE (database=id)
+    : CREATE DATABASE (database_name)
     ( CONTAINMENT '=' ( NONE | PARTIAL ) )?
     ( ON PRIMARY? database_file_spec ( ',' database_file_spec )* )?
     ( LOG ON database_file_spec ( ',' database_file_spec )* )?
@@ -2000,7 +2000,7 @@ create_statistics
     ;
 
 update_statistics
-    : UPDATE (INDEX | ALL)? STATISTICS full_table_name id?  (USING DECIMAL VALUES)?
+    : UPDATE (INDEX | ALL)? STATISTICS schema_object_name id?  (USING DECIMAL VALUES)?
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms174979.aspx
@@ -2044,7 +2044,7 @@ alter_table
 
 // https://msdn.microsoft.com/en-us/library/ms174269.aspx
 alter_database
-    : ALTER DATABASE (database=id | CURRENT)
+    : ALTER DATABASE (database_name | CURRENT)
       (MODIFY NAME '=' new_name=id | COLLATE collation=id | SET database_optionspec (WITH termination)? ) ';'?
     ;
 
@@ -2309,7 +2309,7 @@ drop_index
     ;
 
 drop_relational_or_xml_or_spatial_index
-    : index_name=id ON full_table_name
+    : index_name=id ON schema_object_name
     ;
 
 drop_backward_compatible_index
@@ -2379,7 +2379,7 @@ openquery
 // https://msdn.microsoft.com/en-us/library/ms179856.aspx
 opendatasource
     : OPENDATASOURCE '(' provider=STRING ',' init=STRING ')'
-     '.' (database=id)? '.' (scheme=id)? '.' (table=id)
+     '.' (database_name)? '.' (scheme=id)? '.' (table_name)
     ;
 
 // Other statements.
@@ -2730,7 +2730,7 @@ go_statement
 
 // https://msdn.microsoft.com/en-us/library/ms188366.aspx
 use_statement
-    : USE database=id ';'?
+    : USE database_name ';'?
     ;
 
 setuser_statement
@@ -3144,7 +3144,7 @@ table_source_item_joined
 
 table_source_item
     : table_name_with_hint        as_table_alias?
-    | full_table_name             as_table_alias?
+    | schema_object_name             as_table_alias?
     | rowset_function             as_table_alias?
     | derived_table              (as_table_alias column_alias_list?)?
     | change_table                as_table_alias
@@ -3290,8 +3290,8 @@ value_method
     ;
 
 query_method
-    : (LOCAL_ID | ID | full_table_name) '.' QUERY '(' xquery=STRING ')'
-    | (LOCAL_ID | ID | full_table_name) '.' ROW '.' QUERY '(' xquery=STRING ')'
+    : (LOCAL_ID | ID | schema_object_name) '.' QUERY '(' xquery=STRING ')'
+    | (LOCAL_ID | ID | schema_object_name) '.' ROW '.' QUERY '(' xquery=STRING ')'
     ;
 
 exist_method
@@ -3470,32 +3470,29 @@ file_spec
 
 // Primitive.
 entity_name
-      : (server=id '.' database=id '.'  schema=id   '.'
-      |              database=id '.' (schema=id)? '.'
-      |                               schema=id   '.')? table=id
-    ;
+      : schema_object_name
+      ;
 
 
 entity_name_for_azure_dw
-      : schema=id
-      | schema=id '.' object_name=id
+      : schema_name
+      | schema_name '.' object_name=id
       ;
 
 entity_name_for_parallel_dw
       : schema_database=id
-      | schema=id '.' object_name=id
+      | schema_name '.' object_name=id
       ;
 
-full_table_name
-    : (server=id '.' database=id '.'  schema=id   '.'
-      |              database=id '.' (schema=id)? '.'
-      |                               schema=id   '.')? table=id
-    ;
-
 schema_object_name
-    : database_name '.' schema_name '.' table_name
+    : server_name '.' database_name '.' schema_name '.' table_name
+    | database_name '.' schema_name '.' table_name
     | schema_name '.' table_name
     | table_name
+    ;
+
+server_name
+    : server=id
     ;
 
 table_name
@@ -3511,25 +3508,25 @@ schema_name
     ;
 
 simple_name
-    : (schema=id '.')? name=id
+    : (schema_name '.')? name=id
     ;
 
 func_proc_name_schema
-    : ((schema=id) '.')? procedure=id
+    : ((schema_name) '.')? procedure=id
     ;
 
 func_proc_name_database_schema
     : func_proc_name_schema
-    | (database=id '.' (schema=id)? '.')? procedure=id
+    | (database_name '.' (schema_name)? '.')? procedure=id
     ;
 
 func_proc_name_server_database_schema
     : func_proc_name_database_schema
-    | (server=id '.' database=id '.' (schema=id)? '.')? procedure=id
+    | (server_name '.' database_name '.' (schema_name)? '.')? procedure=id
     ;
 
 ddl_object
-    : full_table_name
+    : schema_object_name
     | LOCAL_ID
     ;
 /*  There are some RESERVED WORDS that can be column names */
