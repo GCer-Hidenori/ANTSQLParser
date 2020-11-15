@@ -3143,8 +3143,7 @@ table_source_item_joined
     ;
 
 table_source_item
-    : table_name_with_hint        as_table_alias?
-    | schema_object_name             as_table_alias?
+    : schema_object_name as_table_alias? tablesample_clause? with_table_hints?
     | rowset_function             as_table_alias?
     | derived_table              (as_table_alias column_alias_list?)?
     | change_table                as_table_alias
@@ -3153,6 +3152,12 @@ table_source_item
     | LOCAL_ID '.' function_call (as_table_alias column_alias_list?)?
     | open_xml
     | ':' ':' function_call       as_table_alias? // Build-in function (old syntax)
+    ;
+
+// https://docs.microsoft.com/en-us/sql/t-sql/queries/from-transact-sql?view=sql-server-ver15
+tablesample_clause
+    : TABLESAMPLE SYSTEM? '(' sample_number=DECIMAL ( PERCENT | ROWS ) ')'
+        ( REPEATABLE '(' repeat_seed=DECIMAL ')' )?
     ;
 
 // https://docs.microsoft.com/en-us/sql/t-sql/functions/openxml-transact-sql
