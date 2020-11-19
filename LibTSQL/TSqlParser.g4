@@ -308,8 +308,15 @@ try_catch_statement
     ;
 
 // https://docs.microsoft.com/en-us/sql/t-sql/language-elements/waitfor-transact-sql
+// waitfor_statement
+//     : WAITFOR receive_statement? ','? ((DELAY | TIME | TIMEOUT) time)?  expression? ';'?
+//     ;
 waitfor_statement
-    : WAITFOR receive_statement? ','? ((DELAY | TIME | TIMEOUT) time)?  expression? ';'?
+    : WAITFOR (
+        (DELAY | TIME ) time
+    | '('  (receive_statement | get_conversation) ')' (',' TIMEOUT time)?
+
+        )
     ;
 
 // https://docs.microsoft.com/en-us/sql/t-sql/language-elements/while-transact-sql
@@ -350,6 +357,7 @@ another_statement
     | setuser_statement
     | reconfigure_statement
     | shutdown_statement
+    | receive_statement
     ;
 // https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-application-role-transact-sql
 
@@ -1730,7 +1738,6 @@ conversation_statement
     | end_conversation
     | get_conversation
     | send_conversation
-    | waitfor_conversation
     ;
 
 message_statement
@@ -1812,9 +1819,9 @@ insert_statement_value
 
 
 receive_statement
-    : '('? RECEIVE (ALL | DISTINCT | top_clause | '*')
-      (LOCAL_ID '=' expression ','?)* FROM schema_object_name
-      (INTO table_variable=id (WHERE where=search_condition))? ')'?
+    :  RECEIVE (ALL | DISTINCT)? top_clause?
+      select_list FROM schema_object_name
+      (INTO table_variable=id (WHERE where=search_condition))? 
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms189499.aspx
@@ -3613,10 +3620,6 @@ service_name
 end_conversation
     : END CONVERSATION conversation_handle=LOCAL_ID ';'?
       (WITH (ERROR '=' faliure_code=(LOCAL_ID | STRING) DESCRIPTION '=' failure_text=(LOCAL_ID | STRING))? CLEANUP? )?
-    ;
-
-waitfor_conversation
-    : WAITFOR? '(' get_conversation ')' (','? TIMEOUT timeout=time)? ';'?
     ;
 
 get_conversation
