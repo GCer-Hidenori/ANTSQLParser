@@ -13,6 +13,7 @@ namespace LibTSQL
         public override void SyntaxError([NotNull] IRecognizer recognizer, [Nullable] IToken offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, [Nullable] RecognitionException e)
         { 
             Console.Error.WriteLine("{0}", msg);
+            Console.Error.WriteLine("Line:{0} charPositionInLine:{1}", line, charPositionInLine);
             throw new ParserError(msg, e);
         }
     }
