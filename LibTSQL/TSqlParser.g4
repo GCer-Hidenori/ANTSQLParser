@@ -1846,10 +1846,20 @@ update_statement
       for_clause? option_clause? ';'?
     ;
 
-// https://msdn.microsoft.com/en-us/library/ms177564.aspx
+// https://docs.microsoft.com/en-us/sql/t-sql/queries/output-clause-transact-sql?redirectedfrom=MSDN&view=sql-server-ver15
 output_clause
-    : OUTPUT output_dml_list_elem (',' output_dml_list_elem)*
-      (INTO (LOCAL_ID | schema_object_name) ('(' column_name_list ')')? )?
+    : output_with_into output_without_into
+    | output_with_into
+    | output_without_into
+    ;
+
+output_with_into
+    :  OUTPUT output_dml_list_elem (',' output_dml_list_elem)*
+      INTO (LOCAL_ID | schema_object_name) ('(' column_name_list ')')?  
+    ;
+
+output_without_into
+    :  OUTPUT output_dml_list_elem (',' output_dml_list_elem)*
     ;
 
 output_dml_list_elem
