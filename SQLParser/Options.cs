@@ -30,5 +30,8 @@ namespace SQLParser
 
         [Option("noerrorlistener",Required =false,HelpText ="No use error listener")]
         public bool noerrorlistener { get; set; }
+
+        [Option('u', "outputfilename", Required = false, HelpText = "Output filename.")]
+        public string outputfilename { get; set; }
     }
 }
