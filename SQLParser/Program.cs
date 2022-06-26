@@ -8,7 +8,7 @@ using System.Xml;
 using CommandLine;
 
 /*
- Install-Package CommandLineParser -Version 2.8.0
+ Install-Package CommandLineParser
 */
 namespace SQLParser
 {

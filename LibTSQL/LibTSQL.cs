@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 /*
 Install-Package antlr4
-Install-Package Newtonsoft.Json -Version 12.0.3
+Install-Package Newtonsoft.Json
 */
 namespace LibTSQL
 {
