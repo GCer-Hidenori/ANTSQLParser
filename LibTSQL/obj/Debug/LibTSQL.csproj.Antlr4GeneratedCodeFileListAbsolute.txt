@@ -1,0 +1,6 @@
+C:\Users\Hidenori\source\repos\ANTSQLParser\LibTSQL\obj\Debug\TSqlLexer.cs
+C:\Users\Hidenori\source\repos\ANTSQLParser\LibTSQL\obj\Debug\TSqlParser.cs
+C:\Users\Hidenori\source\repos\ANTSQLParser\LibTSQL\obj\Debug\TSqlParserListener.cs
+C:\Users\Hidenori\source\repos\ANTSQLParser\LibTSQL\obj\Debug\TSqlParserBaseListener.cs
+C:\Users\Hidenori\source\repos\ANTSQLParser\LibTSQL\obj\Debug\TSqlParserVisitor.cs
+C:\Users\Hidenori\source\repos\ANTSQLParser\LibTSQL\obj\Debug\TSqlParserBaseVisitor.cs
