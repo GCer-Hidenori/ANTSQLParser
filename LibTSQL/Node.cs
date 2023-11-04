@@ -10,7 +10,7 @@ namespace LibTSQL
 {
     class Node
     {
-        static Hashtable members = new Hashtable();
+        //static Hashtable members = new Hashtable();
 
         public string value;
         public string token_name;
@@ -36,38 +36,40 @@ namespace LibTSQL
             value = _value;
         }
         */
-        public static void debugout(Node node,int depth=0)
+        public static void DebugOut(Node node,int depth=0)
         {
             Console.WriteLine("{0}{1}\t{2}\t{3}", new String(' ', depth * 2),node.rule_name,node.token_name, node.value);
             foreach(var child in node.children)
             {
-                debugout(child, depth + 1);
+                DebugOut(child, depth + 1);
             }
         }
         
-        public Hashtable to_Hashtable()
+        public Hashtable ToHashtable()
         {
-            var hash = new Hashtable();
-            hash.Add("token", token_name);
-            hash.Add("rule", rule_name);
-            hash.Add("value", value);
-           
+            var hash = new Hashtable
+            {
+                { "token", token_name },
+                { "rule", rule_name },
+                { "value", value }
+            };
+
             var ary = new ArrayList();
             foreach(var child in children)
             {
-                ary.Add(child.to_Hashtable());
+                ary.Add(child.ToHashtable());
             }
 
             hash.Add("children", ary);
             return hash;
         }
-        public XmlDocument to_xml()
+        public XmlDocument ToXml()
         {
             var doc = new XmlDocument();
-            doc.AppendChild(to_xml_element(doc));
+            doc.AppendChild(ToXmlElement(doc));
             return doc;
         }
-        public XmlElement to_xml_element(XmlDocument doc)
+        public XmlElement ToXmlElement(XmlDocument doc)
         {
             var element = doc.CreateElement("node");
             element.SetAttribute("token", token_name);
@@ -76,7 +78,7 @@ namespace LibTSQL
             
             foreach (var child in children)
             {
-                element.AppendChild(child.to_xml_element(doc));
+                element.AppendChild(child.ToXmlElement(doc));
             }
             return element;
         }

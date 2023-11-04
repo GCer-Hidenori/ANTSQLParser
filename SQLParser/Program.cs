@@ -24,28 +24,30 @@ namespace SQLParser
                 case ParserResultType.Parsed:
                     var parsed = parseResult as Parsed<Options>;
                     option = parsed.Value;
-                    LibTSQL.LibTSQL lib = new LibTSQL.LibTSQL();
-                    lib.noerrorlistener = option.noerrorlistener;
+                    LibTSQL.LibTSQL lib = new LibTSQL.LibTSQL
+                    {
+                        noerrorlistener = option.NoErrorListener
+                    };
                     try
                     {
-                        if(option.rulename != null)
+                        if(option.Rulename != null)
                         {
-                            lib.start_rulename = option.rulename;
+                            lib.start_rulename = option.Rulename;
                         }
 
-                        if (option.str != null)
+                        if (option.Str != null)
                         {
-                            lib.load_string(option.str);
+                            lib.LoadString(option.Str);
                         }
-                        else if (option.filename != null)
+                        else if (option.Filename != null)
                         {
-                            if (option.encoding != null)
+                            if (option.Encoding != null)
                             {
-                                lib.load_file(option.filename, option.encoding);
+                                lib.LoadFile(option.Filename, option.Encoding);
                             }
                             else
                             {
-                                lib.load_file(option.filename);
+                                lib.LoadFile(option.Filename);
                             }
                         }
                         else
@@ -59,25 +61,25 @@ namespace SQLParser
                         return 1;
                     }
 
-                    switch(option.format.ToUpper())
+                    switch(option.Format.ToUpper())
                     {
                         case "JSON":
-                            output = lib.to_json();
+                            output = lib.ToJson();
                             break;
                         case "XML":
-                            output = lib.to_xml().OuterXml;
-                            if (option.indentxml)
+                            output = lib.ToXml().OuterXml;
+                            if (option.Indentxml)
                             {
-                                output = indentxml(output);
+                                output = IndentXml(output);
                             }
                             break;
                         default:
                             Console.Error.WriteLine("Invalid format '{0}'.Please specify JSON or XML.");
                             return 1;
                     }
-                    if (option.outputfilename != null)
+                    if (option.OutputFilename != null)
                     {
-                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(option.outputfilename))
+                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(option.OutputFilename))
                         {
                             sw.Write(output);
                         }
@@ -95,14 +97,16 @@ namespace SQLParser
                     return 1;
             }
         }
-        static string indentxml(string xmlstring)
+        static string IndentXml(string xmlstring)
         {
             var doc = new System.Xml.XmlDocument();
             doc.LoadXml(xmlstring);
-            var ws = new System.Xml.XmlWriterSettings();
-            ws.Encoding = new System.Text.UTF8Encoding(false);
-            ws.Indent = true;
-            ws.IndentChars = "  ";
+            var ws = new System.Xml.XmlWriterSettings
+            {
+                Encoding = new System.Text.UTF8Encoding(false),
+                Indent = true,
+                IndentChars = "  "
+            };
 
             using (var stream = new MemoryStream())
             {
