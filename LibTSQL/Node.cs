@@ -45,7 +45,7 @@ namespace LibTSQL
             }
         }
         
-        public Hashtable ToHashtable()
+        public Hashtable ToHashTable()
         {
             var hash = new Hashtable
             {
@@ -57,7 +57,7 @@ namespace LibTSQL
             var ary = new ArrayList();
             foreach(var child in children)
             {
-                ary.Add(child.ToHashtable());
+                ary.Add(child.ToHashTable());
             }
 
             hash.Add("children", ary);

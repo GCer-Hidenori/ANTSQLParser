@@ -60,7 +60,7 @@ namespace LibTSQL
         }
         public string ToJson()
         {
-            return JsonConvert.SerializeObject(root.ToHashtable(), Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(root.ToHashTable(), Newtonsoft.Json.Formatting.Indented);
         }
         public XmlDocument ToXml()
         {
