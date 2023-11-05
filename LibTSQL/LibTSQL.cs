@@ -43,10 +43,21 @@ namespace LibTSQL
             ParserRuleContext graphContext = (ParserRuleContext)mi.Invoke(parser,new object[] { });
 
             //ParserRuleContext graphContext = parser.tsql_file();
-            var token_names = parser.TokenNames;
+            //var token_names = parser.TokenNames;
             var rule_names = parser.RuleNames;
-            var tree_parser = new TreeParser(token_names, rule_names);
+            var tree_parser = new TreeParser(rule_names);
             root = tree_parser.Parse(graphContext);
+
+            foreach(var node in Node.members)
+            {
+                if(node.token_code != null)
+                {
+                    node.token_display_name = parser.Vocabulary.GetDisplayName((int)node.token_code);
+                    node.token_literal_name = parser.Vocabulary.GetLiteralName((int)node.token_code);
+                    node.token_symbolic_name = parser.Vocabulary.GetSymbolicName((int)node.token_code);
+                }
+            }
+
         }
         public void LoadFile(string filepath, string encoding_name = "Shift_JIS")
         {

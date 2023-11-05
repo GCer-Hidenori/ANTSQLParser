@@ -10,11 +10,10 @@ namespace LibTSQL
 {
     class TreeParser
     {
-        string[] token_names;
+        //string[] token_names;
         string[] rule_names;
-        public TreeParser(string[] _token_names,string[] _rule_names)
+        public TreeParser(string[] _rule_names)
         {
-            token_names = _token_names;
             rule_names = _rule_names;
         }
 
@@ -46,7 +45,8 @@ namespace LibTSQL
             else
             {
                 //TerminalNodeImpl
-                node.token_name = GetTokenName(((IToken)tree.Payload).Type);
+                //node.token_name = GetTokenName(((IToken)tree.Payload).Type);
+                node.token_code = ((IToken)tree.Payload).Type;
             }
 
             parent_node.children.Add(node);
@@ -58,17 +58,6 @@ namespace LibTSQL
                 Parse(child, node);
             }
             return node;
-        }
-        private string GetTokenName(int type)
-        {
-            if(type >= 0)
-            {
-                return token_names[type];
-            }
-            else
-            {
-                return "";
-            }
         }
     }
 }

@@ -10,35 +10,23 @@ namespace LibTSQL
 {
     class Node
     {
-        //static Hashtable members = new Hashtable();
-
+        public static List<Node> members = new List<Node>();
         public string value;
-        public string token_name;
+        public string token_display_name, token_literal_name, token_symbolic_name;
+        public int? token_code = null;
         public string rule_name;
-        //public Node parent;
-        //public bool is_leaf;
-        //public Node[] children;
+
         public List<Node> children = new List<Node>();
 
-        /*
-        public static Node GetNode(int v)
-        {
-            return (Node)members[v];
-        }
-        */
+
         public Node()
         {
+            members.Add(this);
+        }
 
-        }
-        /*
-        public Node(string _value)
-        {
-            value = _value;
-        }
-        */
         public static void DebugOut(Node node,int depth=0)
         {
-            Console.WriteLine("{0}{1}\t{2}\t{3}", new String(' ', depth * 2),node.rule_name,node.token_name, node.value);
+            Console.WriteLine("{0}{1}\t{2}\t{3}", new String(' ', depth * 2),node.rule_name,node.token_display_name, node.value);
             foreach(var child in node.children)
             {
                 DebugOut(child, depth + 1);
@@ -49,7 +37,9 @@ namespace LibTSQL
         {
             var hash = new Hashtable
             {
-                { "token", token_name },
+                { "token_display_name", token_display_name },
+                { "token_literal_name", token_literal_name },
+                { "token_symbolic_name", token_symbolic_name },
                 { "rule", rule_name },
                 { "value", value }
             };
@@ -72,7 +62,9 @@ namespace LibTSQL
         public XmlElement ToXmlElement(XmlDocument doc)
         {
             var element = doc.CreateElement("node");
-            element.SetAttribute("token", token_name);
+            element.SetAttribute("token_display_name", token_display_name);
+            element.SetAttribute("token_literal_name", token_literal_name);
+            element.SetAttribute("token_symbolic_name", token_symbolic_name);
             element.SetAttribute("rule", rule_name);
             element.SetAttribute("value", value);
             
