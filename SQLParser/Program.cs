@@ -16,14 +16,14 @@ namespace SQLParser
     {
         static int Main(string[] args)
         {
-            var option = new Options();
+            //var option = new Options();
             var parseResult = Parser.Default.ParseArguments<Options>(args);
             string output;
             switch (parseResult.Tag)
             {
                 case ParserResultType.Parsed:
                     var parsed = parseResult as Parsed<Options>;
-                    option = parsed.Value;
+                    var option = parsed.Value;
                     LibTSQL.LibTSQL lib = new LibTSQL.LibTSQL
                     {
                         noerrorlistener = option.NoErrorListener
