@@ -46,7 +46,7 @@ namespace LibTSQL
             var token_names = parser.TokenNames;
             var rule_names = parser.RuleNames;
             var tree_parser = new TreeParser(token_names, rule_names);
-            root = tree_parser.parse(graphContext);
+            root = tree_parser.Parse(graphContext);
         }
         public void LoadFile(string filepath, string encoding_name = "Shift_JIS")
         {

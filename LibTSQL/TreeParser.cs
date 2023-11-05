@@ -18,22 +18,24 @@ namespace LibTSQL
             rule_names = _rule_names;
         }
 
-        public Node parse(ParserRuleContext context, Node parent_node = null)
+        public Node Parse(ParserRuleContext context, Node parent_node = null)
         {
-            Node node = new Node();
-            node.rule_name = rule_names[context.RuleIndex];
+            Node node = new Node
+            {
+                rule_name = rule_names[context.RuleIndex],
 
-            node.value = context.GetText();
+                value = context.GetText()
+            };
             if (parent_node != null) parent_node.children.Add(node);
 
             for (var i = 0; i < context.ChildCount; i++)
             {
                 var child = context.GetChild(i);
-                parse(child, node);
+                Parse(child, node);
             }
             return node;
         }
-        public Node parse(IParseTree tree, Node parent_node)
+        public Node Parse(IParseTree tree, Node parent_node)
         {
             Node node = new Node();
 
@@ -44,7 +46,7 @@ namespace LibTSQL
             else
             {
                 //TerminalNodeImpl
-                node.token_name = get_tokenname(((IToken)tree.Payload).Type);
+                node.token_name = GetTokenName(((IToken)tree.Payload).Type);
             }
 
             parent_node.children.Add(node);
@@ -53,11 +55,11 @@ namespace LibTSQL
             for (var i = 0; i < tree.ChildCount; i++)
             {
                 var child = tree.GetChild(i);
-                parse(child, node);
+                Parse(child, node);
             }
             return node;
         }
-        private string get_tokenname(int type)
+        private string GetTokenName(int type)
         {
             if(type >= 0)
             {
